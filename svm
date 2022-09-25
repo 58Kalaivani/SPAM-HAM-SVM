@@ -1,0 +1,32 @@
+#import the packages needed
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import GridSearchCV
+from sklearn import svm
+
+#upload the dataset
+df = pd.read_csv('spam.csv')
+df.head()
+
+#split training and testing data
+X = df['Message']
+Y = df['Category']
+X_train, X_test, Y_train, Y_test=train_test_split(X,Y,test_size = 0.5, random_state=0)
+print(X_train)
+
+# Converting String to Integer
+cv = CountVectorizer() 
+X_train = cv.fit_transform(X_train)
+X_test = cv.transform(X_test)
+
+print(X_test)
+
+#svm function
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'rbf', random_state = 0)
+classifier.fit(X_train, Y_train)
+
+#score of the function
+print(classifier.score(X_test,Y_test))
